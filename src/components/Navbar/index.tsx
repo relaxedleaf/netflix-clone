@@ -5,6 +5,7 @@ import { NavbarProps } from './navbar';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useState } from 'react';
+import Image from 'next/image';
 
 const Navbar = ({ username }: NavbarProps) => {
 	const [showDropdown, setShowDropdown] = useState(false);
@@ -23,7 +24,14 @@ const Navbar = ({ username }: NavbarProps) => {
 		<div className={styles.container}>
 			<div className={styles.wrapper}>
 				<a className={styles.logoLink}>
-					<div className={styles.logoWrapper}>Netflix</div>
+					<div className={styles.logoWrapper}>
+						<Image
+							src='/static/netflix.svg'
+							width={128}
+							height={34}
+							alt='Netflix Logo'
+						/>
+					</div>
 				</a>
 				<ul className={styles.navItems}>
 					<li
@@ -50,6 +58,12 @@ const Navbar = ({ username }: NavbarProps) => {
 							onClick={handleShowDropdown}
 						>
 							<p className={styles.username}>{username}</p>
+							<Image
+								src='/static/expand_more.svg'
+								width={24}
+								height={24}
+								alt='Expand dropdown'
+							/>
 						</button>
 
 						{showDropdown && (
