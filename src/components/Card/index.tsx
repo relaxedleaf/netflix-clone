@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { CardProps } from './card';
 import styles from './card.module.css';
+import { motion } from 'framer-motion';
+import { default as cls } from 'classnames';
 
 const Card = ({
 	imgUrl = '/static/clifford.webp',
@@ -25,8 +27,10 @@ const Card = ({
 
 	return (
 		<div className={styles.container}>
-			Card
-			<div className={classMap[size]}>
+			<motion.div
+				className={cls(styles.imgMotionWrapper, classMap[size])}
+				whileHover={{ scale: 1.2 }}
+			>
 				<Image
 					src={imgSrc}
 					alt='image'
@@ -34,7 +38,7 @@ const Card = ({
 					onError={handleOnError}
 					className={styles.cardImg}
 				/>
-			</div>
+			</motion.div>
 		</div>
 	);
 };
