@@ -6,6 +6,9 @@ import { fetchVideos } from '@/apis/youtubeAPIs';
 
 const Home = async () => {
 	const disneyVideos = await fetchVideos('Disney videos');
+	const productivityVideos = await fetchVideos('productivity');
+	const travelVideos = await fetchVideos('travel');
+	// const popularVideos = await fetchVideos('Disney videos');
 
 	return (
 		<main className={styles.main}>
@@ -21,6 +24,24 @@ const Home = async () => {
 					title='Disney'
 					videos={disneyVideos}
 					size='large'
+					scale={1.1}
+				/>
+				<SectionCard
+					title='Productivity'
+					videos={productivityVideos}
+					size='medium'
+					scale={1.1}
+				/>
+				<SectionCard
+					title='Travel'
+					videos={travelVideos}
+					size='small'
+					scale={1.1}
+				/>
+				<SectionCard
+					title='Popular'
+					videos={disneyVideos}
+					size='small'
 					scale={1.1}
 				/>
 			</div>
