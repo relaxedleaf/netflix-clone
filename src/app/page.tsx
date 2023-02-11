@@ -4,26 +4,29 @@ import Navbar from '@/components/Navbar';
 import SectionCard from '@/components/Card/SectionCards';
 import styles from './page.module.css';
 import Video from '@/types/Video';
+import { getVideos } from '@/lib/video';
 
 export default function Home() {
-	const disneyVideos = [
-		{
-			id: '0',
-			imgUrl: '/static/clifford.webp',
-		},
-		{
-			id: '1',
-			imgUrl: '/static/clifford.webp',
-		},
-		{
-			id: '2',
-			imgUrl: '/static/clifford.webp',
-		},
-		{
-			id: '3',
-			imgUrl: '/static/clifford.webp',
-		},
-	] as Array<Video>;
+	//@ts-ignore
+	const disneyVideos: Array<Video> = getVideos();
+	// const disneyVideos = [
+	// 	{
+	// 		id: '0',
+	// 		imgUrl: '/static/clifford.webp',
+	// 	},
+	// 	{
+	// 		id: '1',
+	// 		imgUrl: '/static/clifford.webp',
+	// 	},
+	// 	{
+	// 		id: '2',
+	// 		imgUrl: '/static/clifford.webp',
+	// 	},
+	// 	{
+	// 		id: '3',
+	// 		imgUrl: '/static/clifford.webp',
+	// 	},
+	// ] as Array<Video>;
 	return (
 		<main className={styles.main}>
 			<Navbar username='relaxedleaf' />
