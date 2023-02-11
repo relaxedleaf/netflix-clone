@@ -2,13 +2,13 @@ import Banner from '@/components/Banner';
 import Navbar from '@/components/Navbar';
 import SectionCard from '@/components/Card/SectionCards';
 import styles from './page.module.css';
-import { fetchVideos } from '@/apis/youtubeAPIs';
+import { fetchMostPopularVideos, fetchVideosByQuery } from '@/apis/youtubeAPIs';
 
 const Home = async () => {
-	const disneyVideos = await fetchVideos('Disney videos');
-	const productivityVideos = await fetchVideos('productivity');
-	const travelVideos = await fetchVideos('travel');
-	// const popularVideos = await fetchVideos('Disney videos');
+	const disneyVideos = await fetchVideosByQuery('Disney videos');
+	const productivityVideos = await fetchVideosByQuery('productivity');
+	const travelVideos = await fetchVideosByQuery('travel');
+	const popularVideos = await fetchMostPopularVideos();
 
 	return (
 		<main className={styles.main}>
@@ -40,7 +40,7 @@ const Home = async () => {
 				/>
 				<SectionCard
 					title='Popular'
-					videos={disneyVideos}
+					videos={popularVideos}
 					size='small'
 					scale={1.1}
 				/>
