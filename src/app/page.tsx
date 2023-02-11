@@ -2,11 +2,11 @@ import Banner from '@/components/Banner';
 import Navbar from '@/components/Navbar';
 import SectionCard from '@/components/Card/SectionCards';
 import styles from './page.module.css';
-import Video from '@/types/Video';
-import { getVideos } from '@/lib/video';
+import { fetchVideos } from '@/apis/youtubeAPIs';
 
-const Home = () => {
-	const disneyVideos: Array<Video> = getVideos();
+const Home = async () => {
+	const disneyVideos = await fetchVideos('Disney videos');
+
 	return (
 		<main className={styles.main}>
 			<Navbar username='relaxedleaf' />
