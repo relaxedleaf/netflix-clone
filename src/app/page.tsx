@@ -1,9 +1,29 @@
 import Banner from '@/components/Banner';
 import Card from '@/components/Card';
 import Navbar from '@/components/Navbar';
+import SectionCard from '@/components/Card/SectionCards';
 import styles from './page.module.css';
+import Video from '@/types/Video';
 
 export default function Home() {
+	const disneyVideos = [
+		{
+			id: '0',
+			imgUrl: '/static/clifford.webp',
+		},
+		{
+			id: '1',
+			imgUrl: '/static/clifford.webp',
+		},
+		{
+			id: '2',
+			imgUrl: '/static/clifford.webp',
+		},
+		{
+			id: '3',
+			imgUrl: '/static/clifford.webp',
+		},
+	] as Array<Video>;
 	return (
 		<main className={styles.main}>
 			<Navbar username='relaxedleaf' />
@@ -13,9 +33,9 @@ export default function Home() {
 				imgUrl='/static/clifford.webp'
 			/>
 
-			<Card imgUrl='/static/123.webp' size='large' />
-			<Card imgUrl='/static/clifford.webp' size='medium' />
-			<Card imgUrl='/static/clifford.webp' size='small' />
+			<div className={styles.sectionWrapper}>
+				<SectionCard title="Disney" videos={disneyVideos} size="large" scale={1.1} />
+			</div>
 		</main>
 	);
 }

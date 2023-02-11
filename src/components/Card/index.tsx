@@ -1,15 +1,16 @@
 'use client';
 
+import cls from 'classnames';
 import Image from 'next/image';
-import { useState } from 'react';
-import { CardProps } from './card';
 import styles from './card.module.css';
+import { CardProps } from './card';
 import { motion } from 'framer-motion';
-import { default as cls } from 'classnames';
+import { useState } from 'react';
 
 const Card = ({
 	imgUrl = '/static/clifford.webp',
 	size = 'medium',
+	scale,
 }: CardProps) => {
 	const [imgSrc, setImgSrc] = useState(imgUrl);
 	const classMap = {
@@ -29,7 +30,7 @@ const Card = ({
 		<div className={styles.container}>
 			<motion.div
 				className={cls(styles.imgMotionWrapper, classMap[size])}
-				whileHover={{ scale: 1.2 }}
+				whileHover={{ ...scale }}
 			>
 				<Image
 					src={imgSrc}
