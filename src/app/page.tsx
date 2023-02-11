@@ -1,12 +1,11 @@
 import Banner from '@/components/Banner';
-import Card from '@/components/Card';
 import Navbar from '@/components/Navbar';
 import SectionCard from '@/components/Card/SectionCards';
 import styles from './page.module.css';
 import Video from '@/types/Video';
 import { getVideos } from '@/lib/video';
 
-export default function Home() {
+const Home = () => {
 	const disneyVideos: Array<Video> = getVideos();
 	return (
 		<main className={styles.main}>
@@ -27,4 +26,6 @@ export default function Home() {
 			</div>
 		</main>
 	);
-}
+};
+
+export default Home;
