@@ -8,7 +8,7 @@ export const fetchVideos = async (url: string): Promise<Array<Video>> => {
 			cache: 'no-store',
 		});
 		const videos: YoutubeSearchResponse = await response.json();
-
+		console.log(videos);
 		return videos.items.map((item) => {
 			return {
 				id: item.id.videoId,
