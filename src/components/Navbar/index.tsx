@@ -4,7 +4,7 @@ import styles from './navbar.module.css';
 import { NavbarProps } from './navbar';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { magic } from '@/lib/magic-client';
 
@@ -21,6 +21,16 @@ const Navbar = () => {
 	const handleShowDropdown = () => {
 		setShowDropdown(!showDropdown);
 	};
+
+	const handleSignout = useCallback(async () => {
+		try {
+			await magic?.user.logout();
+			router.push('/login');
+		} catch (error) {
+			console.error('Error logging out', error);
+			router.push('/login');
+		}
+	}, [router]);
 
 	useEffect(() => {
 		let mounted = true;
@@ -84,12 +94,12 @@ const Navbar = () => {
 						{showDropdown && (
 							<div className={styles.navDropdown}>
 								<div>
-									<Link
-										href='/login'
+									<a
 										className={styles.linkName}
+										onClick={handleSignout}
 									>
 										Sign out
-									</Link>
+									</a>
 									<div className={styles.lineWrapper}></div>
 								</div>
 							</div>
