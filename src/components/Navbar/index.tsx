@@ -4,11 +4,13 @@ import styles from './navbar.module.css';
 import { NavbarProps } from './navbar';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { magic } from '@/lib/magic-client';
 
-const Navbar = ({ username }: NavbarProps) => {
+const Navbar = () => {
 	const [showDropdown, setShowDropdown] = useState(false);
+	const [email, setEmail] = useState<string | null>('');
 
 	const router = useRouter();
 
@@ -19,6 +21,19 @@ const Navbar = ({ username }: NavbarProps) => {
 	const handleShowDropdown = () => {
 		setShowDropdown(!showDropdown);
 	};
+
+	useEffect(() => {
+		let mounted = true;
+		magic?.user.getMetadata().then((data) => {
+			if (mounted) {
+				setEmail(data.email);
+			}
+		});
+
+		return () => {
+			mounted = false;
+		};
+	}, []);
 
 	return (
 		<div className={styles.container}>
@@ -57,7 +72,7 @@ const Navbar = ({ username }: NavbarProps) => {
 							className={styles.usernameBtn}
 							onClick={handleShowDropdown}
 						>
-							<p className={styles.username}>{username}</p>
+							<p className={styles.username}>{email}</p>
 							<Image
 								src='/static/expand_more.svg'
 								width={24}

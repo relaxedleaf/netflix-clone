@@ -12,7 +12,7 @@ const Home = async () => {
 
 	return (
 		<main className={styles.main}>
-			<Navbar username='relaxedleaf' />
+			<Navbar />
 			<Banner
 				title='Clifford the red dog'
 				subTitle='a very cute dog'
