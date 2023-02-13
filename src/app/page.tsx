@@ -1,46 +1,14 @@
-'use client';
-
 import Banner from '@/components/Banner';
 import Navbar from '@/components/Navbar';
 import SectionCard from '@/components/Card/SectionCards';
 import styles from './page.module.css';
 import { fetchMostPopularVideos, fetchVideosByQuery } from '@/apis/youtubeAPIs';
-import Video from '@/types/Video';
-import { useEffect, useState } from 'react';
 
-const Home = () => {
-	const [disneyVideos, setDisneyVideos] = useState<Array<Video>>([]);
-	const [productivityVideos, setProductivityVideos] = useState<Array<Video>>(
-		[]
-	);
-	const [travelVideos, setTravelVideos] = useState<Array<Video>>([]);
-	const [popularVideos, setPopularVideos] = useState<Array<Video>>([]);
-
-	useEffect(() => {
-		fetchVideosByQuery('Disney videos').then((videos) => {
-			console.log(videos);
-			setDisneyVideos(videos);
-		});
-
-		fetchVideosByQuery('productivity').then((videos) => {
-			setProductivityVideos(videos);
-		});
-
-		fetchVideosByQuery('travel').then((videos) => {
-			setTravelVideos(videos);
-		});
-
-		fetchMostPopularVideos().then((videos) => {
-			setPopularVideos(videos);
-		});
-	}, []);
-
-	// const disneyVideos = [] as Array<Video>;
-	// const productivityVideos = [] as Array<Video>;
-	// const travelVideos = [] as Array<Video>;
-	// const popularVideos = [] as Array<Video>;
-
-	console.log('Home');
+const Home = async () => {
+	const disneyVideos = await fetchVideosByQuery('Disney videos');
+	const productivityVideos = await fetchVideosByQuery('productivity');
+	const travelVideos = await fetchVideosByQuery('travel');
+	const popularVideos = await fetchMostPopularVideos();
 
 	return (
 		<main className={styles.main}>

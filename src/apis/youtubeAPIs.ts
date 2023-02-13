@@ -8,10 +8,9 @@ export const fetchVideos = async (url: string): Promise<Array<Video>> => {
 			cache: 'no-store',
 		});
 		const videos: YoutubeSearchResponse = await response.json();
-		console.log(videos);
 		return videos.items.map((item) => {
 			return {
-				id: item.id.videoId,
+				id: typeof item.id === 'string' ? item.id : item.id.videoId,
 				title: item.snippet.title,
 				imgUrl: item.snippet.thumbnails.high.url,
 			};
@@ -29,7 +28,7 @@ export const fetchVideosByQuery = async (
 		baseUrl: 'https://youtube.googleapis.com/youtube/v3/search',
 		params: {
 			part: 'snippet',
-			maxResults: 25,
+			maxResults: 5,
 			q: search,
 			type: 'video',
 			key: process.env.YOUTUBE_API_KEY!,
@@ -47,7 +46,7 @@ export const fetchMostPopularVideos = async () => {
 			part: 'snippet,contentDetails,statistics',
 			chart: 'mostPopular',
 			regionCode: 'US',
-			maxResults: 25,
+			maxResults: 5,
 			type: 'video',
 			key: process.env.YOUTUBE_API_KEY!,
 		},
