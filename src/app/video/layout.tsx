@@ -1,6 +1,6 @@
 'use client';
 
-import './globals.css';
+import '../globals.css';
 
 import { Roboto_Slab } from '@next/font/google';
 import useAuth from '@/hooks/useAuth';
