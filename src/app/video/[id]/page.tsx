@@ -1,5 +1,11 @@
-const Video = () => {
-    return <div>hey</div>
-}
+const Video = ({
+	params,
+	searchParams,
+}: {
+	params: { id: string };
+	searchParams: any;
+}) => {
+	return <div>Video ID {params.id}</div>;
+};
 
 export default Video;

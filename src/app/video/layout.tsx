@@ -21,23 +21,19 @@ export default function RootLayout({
 	const router = useRouter();
 
 	useMountedEffect(() => {
+		console.log({
+			verifyingLogin,
+			isLoggedIn,
+		});
 		if (!verifyingLogin && !isLoggedIn) {
 			router.push('/login');
 		}
 	}, [verifyingLogin, isLoggedIn]);
 
 	return (
-		<html lang='en' className={slab.className}>
-			<head />
-			<body>
-				<Component
-					verifyingLogin={verifyingLogin}
-					isLoggedIn={isLoggedIn}
-				>
-					{children}
-				</Component>
-			</body>
-		</html>
+		<Component verifyingLogin={verifyingLogin} isLoggedIn={isLoggedIn}>
+			{children}
+		</Component>
 	);
 }
 
