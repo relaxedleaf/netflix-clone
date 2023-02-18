@@ -1,5 +1,6 @@
 export type BannerProps = {
     title: string,
     subTitle: string,
-    imgUrl: string
+    imgUrl: string,
+    videoId: string
 }

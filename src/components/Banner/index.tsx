@@ -1,12 +1,15 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { BannerProps } from './banner';
 import styles from './banner.module.css';
 
-const Banner = ({ title, subTitle, imgUrl }: BannerProps) => {
+const Banner = ({ title, subTitle, imgUrl, videoId }: BannerProps) => {
+	const router = useRouter();
+
 	const handleOnClick = () => {
-		console.log('hey');
+		router.push(`/video/${videoId}`)
 	};
 
 	return (
