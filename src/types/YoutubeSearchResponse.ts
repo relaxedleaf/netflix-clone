@@ -17,7 +17,6 @@ export interface Snippet {
 	description: string;
 	thumbnails: Thumbnails;
 	channelTitle: string;
-	statistics?: Statistics;
 	liveBroadcastContent: string;
 	publishTime: string;
 }
@@ -39,6 +38,7 @@ export interface SearchResult {
 	etag: string;
 	id: Id;
 	snippet: Snippet;
+	statistics?: Statistics;
 }
 
 export default interface YoutubeSearchResponse {

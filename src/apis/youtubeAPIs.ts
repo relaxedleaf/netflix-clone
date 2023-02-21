@@ -24,9 +24,8 @@ export const fetchVideos = async (
 				description: item.snippet.description,
 				publishTime: item.snippet.publishedAt,
 				channelTitle: item.snippet.channelTitle,
-				//@ts-ignore
-				statistics: item.snippet.statistics
-					? item.snippet.statistics
+				statistics: item.statistics
+					? item.statistics
 					: {
 							likeCount: '0',
 							favoriteCount: '0',
@@ -90,6 +89,5 @@ export const getYoutubeVideoById = async (
 	});
 
 	const videos = await fetchVideos(url, cache);
-
 	return videos.length ? videos[0] : null;
 };
