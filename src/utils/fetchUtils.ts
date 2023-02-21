@@ -5,7 +5,6 @@ export const getUrl = ({
 	baseUrl: string;
 	params: Record<string, string | number>;
 }) => {
-	console.log(params);
 	if (!baseUrl) {
 		return '';
 	}

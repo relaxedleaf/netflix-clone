@@ -17,8 +17,16 @@ export interface Snippet {
 	description: string;
 	thumbnails: Thumbnails;
 	channelTitle: string;
+	statistics?: Statistics;
 	liveBroadcastContent: string;
 	publishTime: string;
+}
+
+export interface Statistics {
+	viewCount: string;
+	likeCount: string;
+	favoriteCount: string;
+	commentCount: string;
 }
 
 export interface Id {

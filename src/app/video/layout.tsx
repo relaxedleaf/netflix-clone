@@ -21,10 +21,6 @@ export default function RootLayout({
 	const router = useRouter();
 
 	useMountedEffect(() => {
-		console.log({
-			verifyingLogin,
-			isLoggedIn,
-		});
 		if (!verifyingLogin && !isLoggedIn) {
 			router.push('/login');
 		}

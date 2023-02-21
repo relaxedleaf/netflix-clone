@@ -19,13 +19,10 @@ const useRouterEvent = ({
 	const [completeActionCompleted, setCompleteActionCompleted] =
 		useState(false);
 	useEffect(() => {
-		console.log({ windowPath: window.location.pathname });
-		console.log({ pathname, searchParams });
 		setIsChanging(false);
 	}, [pathname, searchParams]);
 
 	useEffect(() => {
-		console.log('called');
 		if (isChanging) onStart();
 		else {
 			onComplete();

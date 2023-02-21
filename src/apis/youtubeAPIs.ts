@@ -2,17 +2,37 @@ import Video from '@/types/Video';
 import YoutubeSearchResponse from '@/types/YoutubeSearchResponse';
 import { getUrl } from '@/utils/fetchUtils';
 
-export const fetchVideos = async (url: string): Promise<Array<Video>> => {
+const BASE_URL = 'https://youtube.googleapis.com/youtube/v3';
+
+export const fetchVideos = async (
+	url: string,
+	cache: RequestCache = 'no-store'
+): Promise<Array<Video>> => {
 	try {
 		const response = await fetch(url, {
-			cache: 'no-store',
+			cache,
 		});
 		const videos: YoutubeSearchResponse = await response.json();
+		if (!videos.items) {
+			return [];
+		}
 		return videos.items.map((item) => {
 			return {
 				id: typeof item.id === 'string' ? item.id : item.id.videoId,
 				title: item.snippet.title,
 				imgUrl: item.snippet.thumbnails.high.url,
+				description: item.snippet.description,
+				publishTime: item.snippet.publishedAt,
+				channelTitle: item.snippet.channelTitle,
+				//@ts-ignore
+				statistics: item.snippet.statistics
+					? item.snippet.statistics
+					: {
+							likeCount: '0',
+							favoriteCount: '0',
+							commentCount: '0',
+							viewCount: '0',
+					  },
 			};
 		});
 	} catch (err) {
@@ -25,7 +45,7 @@ export const fetchVideosByQuery = async (
 	search: string
 ): Promise<Array<Video>> => {
 	const url = getUrl({
-		baseUrl: 'https://youtube.googleapis.com/youtube/v3/search',
+		baseUrl: `${BASE_URL}/search`,
 		params: {
 			part: 'snippet',
 			maxResults: 5,
@@ -41,7 +61,7 @@ export const fetchVideosByQuery = async (
 
 export const fetchMostPopularVideos = async () => {
 	const url = getUrl({
-		baseUrl: 'https://youtube.googleapis.com/youtube/v3/videos',
+		baseUrl: `${BASE_URL}/videos`,
 		params: {
 			part: 'snippet,contentDetails,statistics',
 			chart: 'mostPopular',
@@ -54,4 +74,22 @@ export const fetchMostPopularVideos = async () => {
 
 	const videos = await fetchVideos(url);
 	return videos;
+};
+
+export const getYoutubeVideoById = async (
+	videoId: string,
+	cache: RequestCache = 'no-store'
+) => {
+	const url = getUrl({
+		baseUrl: `${BASE_URL}/videos`,
+		params: {
+			part: 'snippet,contentDetails,statistics',
+			id: videoId,
+			key: process.env.YOUTUBE_API_KEY!,
+		},
+	});
+
+	const videos = await fetchVideos(url, cache);
+
+	return videos.length ? videos[0] : null;
 };
