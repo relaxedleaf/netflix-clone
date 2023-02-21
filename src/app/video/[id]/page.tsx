@@ -2,6 +2,7 @@ import styles from './page.module.css';
 import Video from '../../../types/Video';
 import VideoModal from './components/VideoModal';
 import { getYoutubeVideoById } from '@/apis/youtubeAPIs';
+import Navbar from '@/components/Navbar';
 
 export const generateStaticParams = async () => {
 	console.log('Inside of generate static params');
@@ -32,6 +33,7 @@ const Video = async ({
 
 	return (
 		<div className={styles.container}>
+			<Navbar />
 			<VideoModal video={video} />
 		</div>
 	);
