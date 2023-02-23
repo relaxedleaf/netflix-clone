@@ -3,15 +3,12 @@ import Navbar from '@/components/Navbar';
 import SectionCard from '@/components/Card/SectionCards';
 import styles from './page.module.css';
 import { fetchMostPopularVideos, fetchVideosByQuery } from '@/apis/youtubeAPIs';
-import { startFetchMyQuery } from '@/lib/db/hasura';
 
 const Home = async () => {
 	const disneyVideos = await fetchVideosByQuery('Disney videos');
 	const productivityVideos = await fetchVideosByQuery('productivity');
 	const travelVideos = await fetchVideosByQuery('travel');
 	const popularVideos = await fetchMostPopularVideos();
-
-	startFetchMyQuery();
 
 	return (
 		<main className={styles.main}>

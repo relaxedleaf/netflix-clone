@@ -34,6 +34,11 @@ const Navbar = () => {
 
 	useEffect(() => {
 		let mounted = true;
+
+		magic?.user.getIdToken().then(data => {
+			console.log(data)
+		});
+
 		magic?.user.getMetadata().then((data) => {
 			if (mounted) {
 				setEmail(data.email);
