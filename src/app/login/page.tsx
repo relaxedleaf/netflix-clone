@@ -28,19 +28,33 @@ const Login = () => {
 			return;
 		}
 
-		if (email === 'liguanghui.cs@gmail.com') {
-			try {
-				setIsLoading(true);
-				const didToken = await magic?.auth.loginWithMagicLink({
-					email,
+		try {
+			setIsLoading(true);
+			const didToken = await magic?.auth.loginWithMagicLink({
+				email,
+			});
+			if (didToken) {
+				const response = await fetch('/api/login', {
+					method: 'POST',
+					headers: {
+						Authorization: `Bearer ${didToken}`,
+						'Content-Type': 'application/json',
+					},
 				});
-				if (didToken) {
+
+				const loggedInResponse = await response.json();
+
+				if (loggedInResponse.done) {
 					router.push('/');
+					console.log({ loggedInResponse });
+				} else {
+					console.log('Something went wrong logging in');
+					setIsLoading(false);
 				}
-			} catch (err) {
-				console.log('Error login with Magic', err);
-				setIsLoading(false);
 			}
+		} catch (err) {
+			console.log('Error login with Magic', err);
+			setIsLoading(false);
 		}
 	}, [email]);
 

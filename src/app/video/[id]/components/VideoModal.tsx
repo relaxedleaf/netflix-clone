@@ -1,10 +1,13 @@
 'use client';
 
-import Video from '@/types/Video';
 import clsx from 'classnames';
-import styles from '../page.module.css';
+import DislikeIcon from '@/components/Icons/DislikeIcon';
+import LikeIcon from '@/components/Icons/LikeIcon';
 import Modal from 'react-modal';
+import styles from '../page.module.css';
+import Video from '@/types/Video';
 import { useRouter } from 'next/navigation';
+
 const VideoModal = ({ video }: { video: Video }) => {
 	const router = useRouter();
 
@@ -32,6 +35,22 @@ const VideoModal = ({ video }: { video: Video }) => {
 				height='360'
 				src={`https://www.youtube.com/embed/${id}?autoplay=0&origin=http://example.com&controls=0&rel=1`}
 			></iframe>
+
+			<div className={styles.likeDislikeBtnWrapper}>
+				<div className={styles.likeBtnWrapper}>
+					<button>
+						<div className={styles.btnWrapper}>
+							<LikeIcon />
+						</div>
+					</button>
+				</div>
+				<button>
+					<div className={styles.btnWrapper}>
+						<DislikeIcon />
+					</div>
+				</button>
+			</div>
+
 			<div className={styles.modalBody}>
 				<div className={styles.modalBodyContent}>
 					<div className={styles.col1}>
