@@ -7,9 +7,13 @@ import Modal from 'react-modal';
 import styles from '../page.module.css';
 import Video from '@/types/Video';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const VideoModal = ({ video }: { video: Video }) => {
 	const router = useRouter();
+
+	const [toggleLike, setToggleLike] = useState(false);
+	const [toggleDisLike, setToggleDisLike] = useState(false);
 
 	const {
 		id,
@@ -19,6 +23,18 @@ const VideoModal = ({ video }: { video: Video }) => {
 		channelTitle,
 		statistics: { viewCount } = { viewCount: 0 },
 	} = video;
+
+	const handleToggleDislike = async () => {
+		console.log('handleToggleDislike');
+		setToggleDisLike(!toggleDisLike);
+		setToggleLike(toggleDisLike);
+	};
+
+	const handleToggleLike = async () => {
+		console.log('handleToggleLike');
+		setToggleLike(!toggleLike);
+		setToggleDisLike(toggleLike);
+	};
 
 	return (
 		<Modal
@@ -38,15 +54,15 @@ const VideoModal = ({ video }: { video: Video }) => {
 
 			<div className={styles.likeDislikeBtnWrapper}>
 				<div className={styles.likeBtnWrapper}>
-					<button>
+					<button onClick={handleToggleLike}>
 						<div className={styles.btnWrapper}>
-							<LikeIcon />
+							<LikeIcon selected={toggleLike} />
 						</div>
 					</button>
 				</div>
-				<button>
+				<button onClick={handleToggleDislike}>
 					<div className={styles.btnWrapper}>
-						<DislikeIcon />
+						<DislikeIcon selected={toggleDisLike} />
 					</div>
 				</button>
 			</div>
