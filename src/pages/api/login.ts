@@ -6,11 +6,17 @@ import { setTokenCookie } from '@/lib/cookies';
 
 const login = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 	if (req.method !== 'POST') {
-		return res.send({ done: false });
+		return res.status(400).send({ done: false });
 	}
 
+	const auth = req.headers.authorization;
+	if (!auth) {
+		return res.status(401).send({ done: false });
+	}
+
+	const now = (Date.now() / 1000) - 100;
+
 	try {
-		const auth = req.headers.authorization;
 		const didToken = auth ? auth.substring(7) : '';
 
 		const metadata = await magicAdmin.users.getMetadataByToken(didToken);
@@ -18,8 +24,8 @@ const login = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 		const token = jwt.sign(
 			{
 				...metadata,
-				iat: Math.floor(Date.now() / 1000),
-				exp: Math.floor(Date.now() / 1000 + 7 * 24 * 60 * 60),
+				iat: Math.floor(now),
+				exp: Math.floor(now + 7 * 24 * 60 * 60),
 				'https://hasura.io/jwt/claims': {
 					'x-hasura-allowed-roles': ['user', 'admin'],
 					'x-hasura-default-role': 'user',
@@ -29,12 +35,13 @@ const login = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 			process.env.JWT_SECRET!
 		);
 
-		const isNewUserQuery = await isNewUser(token, metadata.issuer!);
-
-		isNewUserQuery && (await createNewUser(token, metadata));
+		const isNewUsr = await isNewUser(token, metadata.issuer!);
+		console.log({isNewUsr});
+		if (isNewUsr) {
+			await createNewUser(token, metadata);
+		}
 		setTokenCookie(token, res);
 		res.send({ done: true });
-
 	} catch (error) {
 		console.error('Something went wrong logging in', error);
 		res.status(500).send({ done: false });

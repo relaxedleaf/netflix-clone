@@ -7,7 +7,7 @@ import Modal from 'react-modal';
 import styles from '../page.module.css';
 import Video from '@/types/Video';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 const VideoModal = ({ video }: { video: Video }) => {
 	const router = useRouter();
@@ -24,18 +24,43 @@ const VideoModal = ({ video }: { video: Video }) => {
 		statistics: { viewCount } = { viewCount: 0 },
 	} = video;
 
-	const handleToggleDislike = async () => {
+	const handleToggleDislike = useCallback(async () => {
 		console.log('handleToggleDislike');
 		setToggleDisLike(!toggleDisLike);
 		setToggleLike(toggleDisLike);
-	};
 
-	const handleToggleLike = async () => {
-		console.log('handleToggleLike');
+		const val = !toggleDisLike;
+
+		const response = await fetch('/api/stats', {
+			method: 'POST',
+			body: JSON.stringify({
+				videoId: id,
+				favorited: val ? 0 : 1,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		console.log('data', await response.json());
+	}, [toggleDisLike]);
+
+	const handleToggleLike = useCallback(async () => {
+		const val = !toggleLike;
 		setToggleLike(!toggleLike);
 		setToggleDisLike(toggleLike);
-	};
 
+		const response = await fetch('/api/stats', {
+			method: 'POST',
+			body: JSON.stringify({
+				videoId: id,
+				favorited: val ? 0 : 1,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		console.log('data', await response.json());
+	}, [toggleLike]);
 	return (
 		<Modal
 			className={styles.modal}
