@@ -111,7 +111,13 @@ export const findVideoIdByUser = async (
 		token,
 	});
 
-	return response?.data?.stats;
+	if(response?.data?.stats){
+		const stats = response?.data?.stats;
+		if (stats.length){
+			return stats[0];
+		}
+	}
+	return null;
 };
 
 export async function createNewUser(

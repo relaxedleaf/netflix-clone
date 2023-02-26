@@ -7,7 +7,7 @@ import Modal from 'react-modal';
 import styles from '../page.module.css';
 import Video from '@/types/Video';
 import { useRouter } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const VideoModal = ({ video }: { video: Video }) => {
 	const router = useRouter();
@@ -61,6 +61,30 @@ const VideoModal = ({ video }: { video: Video }) => {
 		});
 		console.log('data', await response.json());
 	}, [toggleLike]);
+
+	const getFavoriated = useCallback(async () => {
+		const resposne = await fetch(`/api/stats?videoId=${id}`);
+
+		if (resposne.status !== 200) {
+			return;
+		}
+
+		const video = await resposne.json();
+		const { favorited } = video;
+		if (favorited === 1) {
+			setToggleLike(true);
+		} else if (favorited === 0) {
+			setToggleDisLike(true);
+		}
+	}, [id]);
+
+	useEffect(() => {
+		if (!id) {
+			return () => {};
+		}
+		getFavoriated();
+	}, [id]);
+
 	return (
 		<Modal
 			className={styles.modal}
