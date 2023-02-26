@@ -46,14 +46,14 @@ const VideoModal = ({ video }: { video: Video }) => {
 
 	const handleToggleLike = useCallback(async () => {
 		const val = !toggleLike;
-		setToggleLike(!toggleLike);
+		setToggleLike(val);
 		setToggleDisLike(toggleLike);
 
 		const response = await fetch('/api/stats', {
 			method: 'POST',
 			body: JSON.stringify({
 				videoId: id,
-				favorited: val ? 0 : 1,
+				favorited: val ? 1 : 0,
 			}),
 			headers: {
 				'Content-Type': 'application/json',

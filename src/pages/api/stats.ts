@@ -28,25 +28,27 @@ const stats = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 
 		const userId = decodedToken.issuer;
 
-		const doesStatsExist = await findVideoIdByUser(token, userId, videoId);
+		const videos = await findVideoIdByUser(token, userId, videoId);
+		const doesStatsExist = videos?.length > 0;
+		
 		if (doesStatsExist) {
 			//Update it
 			const response = await updateStats(token, {
 				watched,
 				userId,
 				videoId,
-				favorited: 0,
+				favorited,
 			});
-			return res.send({ msg: 'it works', response });
+			return res.send({ data: response });
 		} else {
 			// Add it
 			const response = await insertStats(token, {
 				watched,
 				userId,
 				videoId,
-				favorited: 0,
+				favorited,
 			});
-			return res.send({ msg: 'it works', response });
+			return res.send({ data: response });
 		}
 	} catch (error) {
 		console.error('Error occurred /stats', error);

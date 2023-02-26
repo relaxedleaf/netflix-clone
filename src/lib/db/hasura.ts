@@ -14,6 +14,12 @@ export async function insertStats(
 		videoId: string;
 	}
 ) {
+	console.log({
+		favorited,
+		userId,
+		watched,
+		videoId,
+	})
 	const operationsDoc = `
 		mutation insertStats($favorited: Int!, $userId: String!, $watched: Boolean!, $videoId: String!) {
 			insert_stats_one(object: {
