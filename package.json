@@ -22,6 +22,7 @@
 		"eslint": "8.33.0",
 		"eslint-config-next": "13.1.6",
 		"framer-motion": "^9.0.2",
+		"jose": "^4.12.0",
 		"jsonwebtoken": "^9.0.0",
 		"magic-sdk": "^13.2.0",
 		"next": "13.1.6",

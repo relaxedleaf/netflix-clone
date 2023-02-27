@@ -1,7 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import jwt from 'jsonwebtoken';
-import { findVideoIdByUser, insertStats, updateStats } from '@/lib/db/hasura';
 import verifyToken from '@/lib/utils/server/verifyToken';
+import { findVideoIdByUser, insertStats, updateStats } from '@/lib/db/hasura';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const stats = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 	if (req.method !== 'GET' && req.method !== 'POST') {
@@ -28,7 +27,7 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 	}
 
 	try {
-		const userId = verifyToken(token);
+		const userId = await verifyToken(token);
 		if (!userId) {
 			return res
 				.status(500)
@@ -79,7 +78,7 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 	}
 
 	try {
-		const userId = verifyToken(token);
+		const userId = await verifyToken(token);
 		if (!userId) {
 			return res
 				.status(500)
