@@ -1,6 +1,14 @@
 import { MagicUserMetadata } from '@magic-sdk/admin';
 
-export async function getWatchedVideos(userId: string, token: string) {
+export async function getWatchedVideos({
+	userId,
+	token,
+	cache,
+}: {
+	userId: string;
+	token: string;
+	cache?: RequestCache;
+}) {
 	const operationsDoc = `
 		query watchedVideos($userId: String!) {
 			stats(where: {
@@ -20,6 +28,7 @@ export async function getWatchedVideos(userId: string, token: string) {
 			userId,
 		},
 		token,
+		cache,
 	});
 
 	return response?.data?.stats;
@@ -204,11 +213,13 @@ async function queryHasuraGQL({
 	operationName,
 	variables,
 	token,
+	cache,
 }: {
 	operationsDoc: string;
 	operationName: string;
 	variables: any;
 	token: string;
+	cache?: RequestCache;
 }) {
 	const result = await fetch(process.env.NEXT_PUBLIC_HASURA_ADMIN_URL!, {
 		method: 'POST',
@@ -221,6 +232,7 @@ async function queryHasuraGQL({
 			variables: variables,
 			operationName: operationName,
 		}),
+		cache,
 	});
 
 	return await result.json();

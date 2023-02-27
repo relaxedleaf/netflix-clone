@@ -1,3 +1,4 @@
+import { getWatchedVideos } from '@/lib/db/hasura';
 import Video from '@/types/Video';
 import YoutubeSearchResponse from '@/types/YoutubeSearchResponse';
 import { getUrl } from '@/utils/fetchUtils';
@@ -17,10 +18,11 @@ export const fetchVideos = async (
 			return [];
 		}
 		return videos.items.map((item) => {
+			const id = typeof item.id === 'string' ? item.id : item.id.videoId;
 			return {
-				id: typeof item.id === 'string' ? item.id : item.id.videoId,
+				id,
 				title: item.snippet.title,
-				imgUrl: item.snippet.thumbnails.high.url,
+				imgUrl: `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
 				description: item.snippet.description,
 				publishTime: item.snippet.publishedAt,
 				channelTitle: item.snippet.channelTitle,
@@ -90,4 +92,28 @@ export const getYoutubeVideoById = async (
 
 	const videos = await fetchVideos(url, cache);
 	return videos.length ? videos[0] : null;
+};
+
+export const fetchWatchItAgainVideos = async (
+	userId: string,
+	token: string | undefined
+) => {
+	if (!token) {
+		return [];
+	}
+	const videos = await getWatchedVideos({
+		userId,
+		token,
+		cache: 'no-store',
+	});
+
+	if (!videos) {
+		return [];
+	}
+	return videos.map((video: any) => {
+		return {
+			id: video.videoId,
+			imgUrl: `https://i.ytimg.com/vi/${video.videoId}/maxresdefault.jpg`,
+		};
+	});
 };

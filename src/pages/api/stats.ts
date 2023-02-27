@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 import { findVideoIdByUser, insertStats, updateStats } from '@/lib/db/hasura';
+import verifyToken from '@/lib/utils/server/verifyToken';
 
 const stats = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 	if (req.method !== 'GET' && req.method !== 'POST') {
@@ -27,14 +28,12 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 	}
 
 	try {
-		const decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
-		if (typeof decodedToken === 'string') {
+		const userId = verifyToken(token);
+		if (!userId) {
 			return res
 				.status(500)
-				.send({ done: false, error: 'Unable to decode token' });
+				.send({ done: false, error: 'Invalid token' });
 		}
-
-		const userId = decodedToken.issuer;
 
 		const video = await findVideoIdByUser(token, userId, videoId);
 
@@ -80,19 +79,12 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 	}
 
 	try {
-		const decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
-		if (typeof decodedToken === 'string') {
+		const userId = verifyToken(token);
+		if (!userId) {
 			return res
 				.status(500)
-				.send({ done: false, error: 'Unable to decode token' });
+				.send({ done: false, error: 'Invalid token' });
 		}
-
-		const userId = decodedToken.issuer;
-		console.log({
-			token,
-			userId,
-			videoId
-		})
 		const video = await findVideoIdByUser(token, userId, videoId);
 
 		if (video) {
