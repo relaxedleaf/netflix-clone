@@ -17,7 +17,8 @@ const MyList = async () => {
 					title='Watch it again'
 					videos={watchItAgainVideos}
 					size='small'
-					scale={1.1}
+					scale={1}
+					shouldWrap={true}
 				/>
 			</div>
 		</main>
