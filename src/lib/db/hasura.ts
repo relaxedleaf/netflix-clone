@@ -1,5 +1,30 @@
 import { MagicUserMetadata } from '@magic-sdk/admin';
 
+export async function getWatchedVideos(userId: string, token: string) {
+	const operationsDoc = `
+		query watchedVideos($userId: String!) {
+			stats(where: {
+				watched: {_eq: true}, 
+				userId: {_eq: $userId},
+			}) {
+				videoId
+				watched
+			}
+		}
+	`;
+
+	const response = await queryHasuraGQL({
+		operationsDoc,
+		operationName: 'watchedVideos',
+		variables: {
+			userId,
+		},
+		token,
+	});
+
+	return response?.data?.stats;
+}
+
 export async function insertStats(
 	token: string,
 	{
@@ -19,7 +44,7 @@ export async function insertStats(
 		userId,
 		watched,
 		videoId,
-	})
+	});
 	const operationsDoc = `
 		mutation insertStats($favorited: Int!, $userId: String!, $watched: Boolean!, $videoId: String!) {
 			insert_stats_one(object: {
@@ -111,9 +136,9 @@ export const findVideoIdByUser = async (
 		token,
 	});
 
-	if(response?.data?.stats){
+	if (response?.data?.stats) {
 		const stats = response?.data?.stats;
-		if (stats.length){
+		if (stats.length) {
 			return stats[0];
 		}
 	}
@@ -170,7 +195,7 @@ export async function isNewUser(token: string, issuer: string) {
 		},
 		token,
 	});
-	console.log({response, error: response?.errors});
+	console.log({ response, error: response?.errors });
 	return response?.data?.users?.length === 0;
 }
 
