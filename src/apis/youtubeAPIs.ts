@@ -1,4 +1,4 @@
-import { getWatchedVideos } from '@/lib/db/hasura';
+import { getMyListVideos, getWatchedVideos } from '@/lib/db/hasura';
 import Video from '@/types/Video';
 import YoutubeSearchResponse from '@/types/YoutubeSearchResponse';
 import { getUrl } from '@/utils/fetchUtils';
@@ -102,6 +102,30 @@ export const fetchWatchItAgainVideos = async (
 		return [];
 	}
 	const videos = await getWatchedVideos({
+		userId,
+		token,
+		cache: 'no-store',
+	});
+
+	if (!videos) {
+		return [];
+	}
+	return videos.map((video: any) => {
+		return {
+			id: video.videoId,
+			imgUrl: `https://i.ytimg.com/vi/${video.videoId}/maxresdefault.jpg`,
+		};
+	});
+};
+
+export const fetchMyListVideos = async (
+	userId: string,
+	token: string | undefined
+) => {
+	if (!token) {
+		return [];
+	}
+	const videos = await getMyListVideos({
 		userId,
 		token,
 		cache: 'no-store',

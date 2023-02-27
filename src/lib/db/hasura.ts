@@ -1,5 +1,38 @@
 import { MagicUserMetadata } from '@magic-sdk/admin';
 
+export async function getMyListVideos({
+	userId,
+	token,
+	cache,
+}: {
+	userId: string;
+	token: string;
+	cache?: RequestCache;
+}) {
+	const operationsDoc = `
+		query favoritedVideos($userId: String!) {
+			stats(where: {
+				userId: {_eq: $userId}, 
+				favorited: {_eq: 1}
+			}) {
+				videoId
+			}
+		}
+	`;
+
+	const response = await queryHasuraGQL({
+		operationsDoc,
+		operationName: 'favoritedVideos',
+		variables: {
+			userId,
+		},
+		token,
+		cache,
+	});
+
+	return response?.data?.stats;
+}
+
 export async function getWatchedVideos({
 	userId,
 	token,
