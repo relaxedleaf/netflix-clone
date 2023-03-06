@@ -1,7 +1,9 @@
 .sectionWrapper {
-  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  background-color: var(--black50);
 }
 
 .main {
   padding-bottom: 4rem;
+  background-color: var(--black50);
 }

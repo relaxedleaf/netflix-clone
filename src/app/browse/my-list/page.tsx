@@ -5,7 +5,7 @@ import styles from './page.module.css';
 import { fetchMyListVideos } from '@/apis/youtubeAPIs';
 
 const MyList = async () => {
-	const { userId, token } = redirectUser();
+	const { userId, token } = await redirectUser();
 	const watchItAgainVideos = await fetchMyListVideos(userId, token);
 
 	return (

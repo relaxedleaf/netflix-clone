@@ -5,7 +5,7 @@ import { magic } from '@/lib/magic-client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import styles from './page.module.css';
 
 const Login = () => {
@@ -33,6 +33,7 @@ const Login = () => {
 			const didToken = await magic?.auth.loginWithMagicLink({
 				email,
 			});
+			console.log({didToken});
 			if (didToken) {
 				const response = await fetch('/api/login', {
 					method: 'POST',
