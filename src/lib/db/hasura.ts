@@ -81,12 +81,6 @@ export async function insertStats(
 		videoId: string;
 	}
 ) {
-	console.log({
-		favorited,
-		userId,
-		watched,
-		videoId,
-	});
 	const operationsDoc = `
 		mutation insertStats($favorited: Int!, $userId: String!, $watched: Boolean!, $videoId: String!) {
 			insert_stats_one(object: {
@@ -214,7 +208,6 @@ export async function createNewUser(
 		},
 		token,
 	});
-	console.log({ response, issuer });
 	return response;
 }
 
@@ -237,7 +230,6 @@ export async function isNewUser(token: string, issuer: string) {
 		},
 		token,
 	});
-	console.log({ response, error: response?.errors });
 	return response?.data?.users?.length === 0;
 }
 

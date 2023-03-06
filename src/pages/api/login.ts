@@ -36,7 +36,6 @@ const login = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 		);
 
 		const isNewUsr = await isNewUser(token, metadata.issuer!);
-		console.log({isNewUsr});
 		if (isNewUsr) {
 			await createNewUser(token, metadata);
 		}

@@ -5,7 +5,6 @@ import { getYoutubeVideoById } from '@/apis/youtubeAPIs';
 import Navbar from '@/components/Navbar';
 
 export const generateStaticParams = async () => {
-	console.log('Inside of generate static params');
 	const listOfVideos = ['mYfJxlgR2jw', '4zH5iYM4wJo', 'uh4dTLJ9q9o'];
 
 	return listOfVideos.map((id) => ({
@@ -17,11 +16,9 @@ export const revalidate = 10;
 
 const Video = async ({
 	params,
-	searchParams,
 }: {
 	video: Video;
 	params: { id: string };
-	searchParams: any;
 }) => {
 	const id = params.id;
 

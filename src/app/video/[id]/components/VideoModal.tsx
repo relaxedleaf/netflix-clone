@@ -25,13 +25,12 @@ const VideoModal = ({ video }: { video: Video }) => {
 	} = video;
 
 	const handleToggleDislike = useCallback(async () => {
-		console.log('handleToggleDislike');
 		setToggleDisLike(!toggleDisLike);
 		setToggleLike(toggleDisLike);
 
 		const val = !toggleDisLike;
 
-		const response = await fetch('/api/stats', {
+		await fetch('/api/stats', {
 			method: 'POST',
 			body: JSON.stringify({
 				videoId: id,
@@ -41,7 +40,6 @@ const VideoModal = ({ video }: { video: Video }) => {
 				'Content-Type': 'application/json',
 			},
 		});
-		console.log('data', await response.json());
 	}, [toggleDisLike]);
 
 	const handleToggleLike = useCallback(async () => {
@@ -49,7 +47,7 @@ const VideoModal = ({ video }: { video: Video }) => {
 		setToggleLike(val);
 		setToggleDisLike(toggleLike);
 
-		const response = await fetch('/api/stats', {
+		await fetch('/api/stats', {
 			method: 'POST',
 			body: JSON.stringify({
 				videoId: id,
@@ -59,7 +57,6 @@ const VideoModal = ({ video }: { video: Video }) => {
 				'Content-Type': 'application/json',
 			},
 		});
-		console.log('data', await response.json());
 	}, [toggleLike]);
 
 	const getFavoriated = useCallback(async () => {
