@@ -2,7 +2,6 @@
 
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import useMountedEffect from './useMountedEffect';
 
 type RouterEventProps = {
 	onStart?: () => void;

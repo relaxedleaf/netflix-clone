@@ -10,7 +10,7 @@ import {
 import redirectUser from '@/lib/utils/server/redirectUser';
 
 const Home = async () => {
-	const { userId, token } = redirectUser();
+	const { userId, token } = await redirectUser();
 	const disneyVideos = await fetchVideosByQuery('Disney videos');
 	const productivityVideos = await fetchVideosByQuery('productivity');
 	const travelVideos = await fetchVideosByQuery('travel');

@@ -3,6 +3,7 @@ import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
 const useAuth = () => {
+	console.log('useAuth');
 	const [verifyingLogin, setIsVerifyingLogin] = useState(true);
 	const [isLoggedIn, setIsLogged] = useState(false);
 	const pathname = usePathname();

@@ -115,7 +115,7 @@ export const fetchWatchItAgainVideos = async (
 			id: video.videoId,
 			imgUrl: `https://i.ytimg.com/vi/${video.videoId}/maxresdefault.jpg`,
 		};
-	});
+	}) as Array<{ id: string; imgUrl: string }>;
 };
 
 export const fetchMyListVideos = async (

@@ -4,8 +4,13 @@ import { CardSize } from '../card';
 
 export type SectionCardsProps = {
 	title: string;
-	videos: Array<Video>;
+	videos:
+		| Array<Video>
+		| Array<{
+				id: string;
+				imgUrl: string;
+		  }>;
 	size: CardSize;
 	shouldWrap?: boolean;
-	scale: number
+	scale: number;
 };
