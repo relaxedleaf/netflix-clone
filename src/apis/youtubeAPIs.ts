@@ -49,7 +49,7 @@ export const fetchVideosByQuery = async (
 		baseUrl: `${BASE_URL}/search`,
 		params: {
 			part: 'snippet',
-			maxResults: 5,
+			maxResults: 10,
 			q: search,
 			type: 'video',
 			key: process.env.YOUTUBE_API_KEY!,
@@ -67,7 +67,7 @@ export const fetchMostPopularVideos = async () => {
 			part: 'snippet,contentDetails,statistics',
 			chart: 'mostPopular',
 			regionCode: 'US',
-			maxResults: 5,
+			maxResults: 10,
 			type: 'video',
 			key: process.env.YOUTUBE_API_KEY!,
 		},
