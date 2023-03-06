@@ -14,12 +14,7 @@ export const generateStaticParams = async () => {
 
 export const revalidate = 10;
 
-const Video = async ({
-	params,
-}: {
-	video: Video;
-	params: { id: string };
-}) => {
+const Video = async ({ params }: { params: { id: string } }) => {
 	const id = params.id;
 
 	const video = await getYoutubeVideoById(id, 'force-cache');
